@@ -50,10 +50,10 @@ target_include_directories(ipc
 
 # comm library 
 add_library(comm SHARED "")
-target_link_libraries(comm PUBLIC pthread)
+
 target_sources(comm 
   PUBLIC 
-  ${CMAKE_CURRENT_LIST_DIR}/src/server/tcp.c
+  ${CMAKE_CURRENT_LIST_DIR}/src/server/server_tcp.c
   )
 target_include_directories(comm 
   PUBLIC 
