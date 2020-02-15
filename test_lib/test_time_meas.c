@@ -1,6 +1,7 @@
 #include <util/util.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int main()
 {
@@ -17,7 +18,7 @@ int main()
   if(resul < 1000)
     return EXIT_FAILURE;
 
-  printf("time diff %ld\n", resul);
+  printf("time diff %lld\n", resul);
 
   destroyTimeMeas(t);
 
