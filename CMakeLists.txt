@@ -80,6 +80,9 @@ target_link_libraries(test_time_meas PUBLIC util)
 add_test_unit(server_tcp test_server_tcp test_lib/test_servertcp.c)
 target_link_libraries(test_server_tcp PUBLIC comm)
 
+add_test_unit(semaphore test_semaphore test_lib/test_semaphore.c)
+target_link_libraries(test_semaphore PUBLIC ipc)
+
 
 #------------------------------------------------------------------------------------------------------
 # Install

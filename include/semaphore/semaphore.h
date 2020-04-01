@@ -1,9 +1,13 @@
 #ifndef __SEMAPHORE_H
 #define __SEMAPHORE_H
 
+#define LOCKED      1
+#define UNLOCKED    0
+
 typedef struct sema 
 {
   int id;
+  int sema_count;
   int state;
 }sema_t;
 
