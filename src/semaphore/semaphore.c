@@ -20,11 +20,14 @@ int semaphore_init(sema_t *s, int key)
   if(s->id < 0)
     return -1;
 
-  union semun u;
-  u.val = 1;
+  if(s->master)
+  {
+     union semun u;
+     u.val = 1;
 
-  if(semctl(s->id, 0, SETVAL, u) < 0)
-    return -1;
+    if(semctl(s->id, 0, SETVAL, u) < 0)
+      return -1;  
+  }
 
   return 0;
 }
