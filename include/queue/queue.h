@@ -10,7 +10,7 @@ typedef struct queue{
 
 int queue_init(int id);
 int queue_send(int queue_id, const queue_st *data, const int bSize);
-int queue_recv(int queue_id, queue_st *data, const int bSize);
+int queue_recv(int queue_id, queue_st *data, const int bSize, int timeout);
 int queue_destroy(int queue_id);
 
 #endif
