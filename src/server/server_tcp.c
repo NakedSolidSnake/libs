@@ -9,6 +9,8 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <sys/time.h>
 
 #define ISVALIDSOCKET(s) ((s) >= 0)
 
@@ -53,29 +55,43 @@ int Server_init(Server_t *server)
     return 1;
   }
 
+  FD_ZERO(&server->master);
+  FD_SET(server->socket, &server->master);
+  server->max_socket = server->socket;
+
   return 0;
 }
 
 int Server_exec(Server_t *server)
-{
+{ 
+  int ret;
 
-  fd_set master;
-  FD_ZERO(&master);
-  FD_SET(server->socket, &master);
-  int max_socket = server->socket;
+  struct timeval timeout;
+  timeout.tv_sec = (server->timeout / 1000000) ;
+  timeout.tv_usec = (server->timeout % 1000000);
+
+  if (!ISVALIDSOCKET(server->socket))
+  {
+    fprintf(stderr, "socket() failed. (%d)\n", errno);
+    return 1;
+  }
 
   while (1)
   {
     fd_set reads;
-    reads = master;
-    if (select(max_socket + 1, &reads, 0, 0, 0) < 0)
-    {
-      fprintf(stderr, "select() failed. (%d)\n", errno);
-      return 1;
+    reads = server->master;
+    ret = select(server->max_socket + 1, &reads, 0, 0, &timeout);
+    if (ret == -1)
+    {       
+      break;
     }
 
+    else if (ret == 0){
+      break;
+    }    
+
     int i;
-    for (i = 1; i <= max_socket; ++i)
+    for (i = 1; i <= server->max_socket; ++i)
     {
       if (FD_ISSET(i, &reads))
       {
@@ -92,13 +108,14 @@ int Server_exec(Server_t *server)
             return 1;
           }
 
-          FD_SET(socket_client, &master);
-          if (socket_client > max_socket)
-            max_socket = socket_client;
+          FD_SET(socket_client, &server->master);
+          if (socket_client > server->max_socket)
+            server->max_socket = socket_client;
 
           char address_buffer[100];
           getnameinfo((struct sockaddr *)&client_address, client_len, address_buffer, sizeof(address_buffer), 0, 0,
                       NI_NUMERICHOST);
+          break;
         }
         else
         {
@@ -106,7 +123,7 @@ int Server_exec(Server_t *server)
           int bytes_received = recv(i, buffer, 1024, 0);
           if (bytes_received < 1)
           {
-            FD_CLR(i, &master);
+            FD_CLR(i, &server->master);
             close(i);
             continue;
           }
@@ -123,8 +140,17 @@ int Server_exec(Server_t *server)
 
       } //if FD_ISSET
     }   //for i to max_socket
-  }     //while(1)
-
-  close(server->socket);
+  }     //while(1)  
   return 0;
+}
+
+int Server_close(Server_t *server)
+{
+  if (!ISVALIDSOCKET(server->socket))
+  {
+    fprintf(stderr, "socket() failed. (%d)\n", errno);
+    return 1;
+  }
+
+  return close(server->socket);  
 }

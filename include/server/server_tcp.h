@@ -25,6 +25,9 @@
 #ifndef __SERVER_TCP_H
 #define __SERVER_TCP_H
 
+#include <time.h>
+#include <sys/types.h>
+
 #define MAX_PORT_LEN             6
 #define MAX_BUFFER_SEND_RECV     1024
 #define LISTEN_AMOUNT            10
@@ -49,6 +52,9 @@ typedef struct
 {
     int socket;                 /**<! File descriptor do servidor */
     char port[MAX_PORT_LEN];    /**<! Porta do servidor */
+    time_t timeout;             /**<! timeout */
+    fd_set master;
+    int max_socket;
     Server_Callback_t cb;       /**<! Callbacks */
 }Server_t;
 
@@ -71,5 +77,7 @@ int Server_init(Server_t *server);
  *               0 em caso de sucesso
  */
 int Server_exec(Server_t *server);
+
+int Server_close(Server_t *server);
 
 #endif
