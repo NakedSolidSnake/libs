@@ -50,6 +50,7 @@ int queue_recv(int queue_id, queue_st *data, const int bSize, int timeout)
   {    
     ret = msgrcv(queue_id, (void *)data, bSize, data->queueType, flags);
     clock_gettime(CLOCK_MONOTONIC, &finish);
+    usleep(10);
   } while (compare(&start, &finish, &offset) && (ret < 0));
 
   return ret;
