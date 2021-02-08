@@ -71,6 +71,17 @@ target_include_directories(util
   ${CMAKE_CURRENT_LIST_DIR}/include
   )
 
+# collection
+add_library(collection SHARED "")
+target_sources(collection 
+  PUBLIC 
+  ${CMAKE_CURRENT_LIST_DIR}/src/collection/list_static.c  
+  )
+target_include_directories(collection 
+  PUBLIC 
+  ${CMAKE_CURRENT_LIST_DIR}/include
+  )
+
 #------------------------------------------------------------------------------------------------------
 # Tests
 #------------------------------------------------------------------------------------------------------
@@ -82,6 +93,9 @@ target_link_libraries(test_server_tcp PUBLIC comm)
 
 add_test_unit(semaphore test_semaphore test_lib/test_semaphore.c)
 target_link_libraries(test_semaphore PUBLIC ipc)
+
+add_test_unit(static_list test_static_list test_lib/test_list_static.c)
+target_link_libraries(test_static_list PUBLIC collection)
 
 
 #------------------------------------------------------------------------------------------------------
