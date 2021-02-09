@@ -126,4 +126,4 @@ install(DIRECTORY include/signal       DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/util         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/database     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(TARGETS  util ipc comm database LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS  util ipc comm database collection LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

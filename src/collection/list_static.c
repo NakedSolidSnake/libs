@@ -54,6 +54,20 @@ int List_remove(List *list, int pos)
   return EXIT_FAILURE;
 }
 
+int List_getObjectByIndex(List *list, int index, void *object)
+{
+  if(list && object)
+  {
+    if(index < list->amount)
+    {
+      memcpy(object, &list->object_list[index * list->object_size], list->object_size);
+      return EXIT_SUCCESS;
+    }
+  }
+
+  return EXIT_FAILURE;
+}
+
 int List_size(List *list)
 {
   if(list)
@@ -67,6 +81,18 @@ int List_isEmpty(List *list)
   if(list)
     return list->amount == 0;
   
+  return -1;
+}
+
+int List_clear(List *list)
+{
+  if(list)
+  {
+    memset(&list->object_list[0], 0, list->list_size * list->object_size);
+    list->amount = 0;
+    return EXIT_SUCCESS;
+  }
+
   return -1;
 }
 
