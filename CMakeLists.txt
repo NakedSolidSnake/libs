@@ -82,6 +82,19 @@ target_include_directories(collection
   ${CMAKE_CURRENT_LIST_DIR}/include
   )
 
+# database
+add_library(database SHARED "")
+target_link_libraries(database PUBLIC mysqlclient)
+target_sources(database 
+  PUBLIC 
+  ${CMAKE_CURRENT_LIST_DIR}/src/database/database.c  
+  )
+target_include_directories(database 
+  PUBLIC 
+  ${CMAKE_CURRENT_LIST_DIR}/include
+  /usr/include
+  )
+
 #------------------------------------------------------------------------------------------------------
 # Tests
 #------------------------------------------------------------------------------------------------------
@@ -111,5 +124,6 @@ install(DIRECTORY include/server       DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/sharedmemory DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/signal       DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/util         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY include/database     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(TARGETS  util ipc comm LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS  util ipc comm database LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
