@@ -31,7 +31,7 @@ int Database_queryExec(char *(*query)(void *data), void *data)
     return !ret ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
-int Database_resultSet(void (*Database_get)(char **data, int rows, void *user_data), void *user_data)
+int Database_resultSet(void (*Database_get)(char **data, int columns, void *user_data), void *user_data)
 {
     MYSQL_RES *result = mysql_store_result(&connection);
     if (result == NULL)
@@ -39,12 +39,13 @@ int Database_resultSet(void (*Database_get)(char **data, int rows, void *user_da
 
     int num_fields = mysql_num_fields(result);
     int num_rows = mysql_affected_rows(&connection);
+    (void)num_rows;
 
     MYSQL_ROW row;
 
     while ((row = mysql_fetch_row(result)))
     {
-        Database_get(row, num_rows, user_data);
+        Database_get(row, num_fields, user_data);
     }
 
     mysql_free_result(result);
