@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <file/file.h>
 
 int FILE_getSize(FILE *file)
@@ -21,6 +22,7 @@ int FILE_getFileContent(const char *filename, const char *mode, char **buffer)
   size_t size = FILE_getSize(file);
 
   *buffer = (char *)malloc(sizeof(char) * size + 1);
+  memset(*buffer, 0, size + 1);
   fread(*buffer, 1, size, file);
   fclose(file);
   return 0;
