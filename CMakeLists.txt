@@ -95,6 +95,18 @@ target_include_directories(database
   /usr/include
   )
 
+# json
+add_library(json SHARED "")
+target_link_libraries(json PUBLIC json-c)
+target_sources(json 
+  PUBLIC 
+  ${CMAKE_CURRENT_LIST_DIR}/src/json/json.c  
+  )
+target_include_directories(json 
+  PUBLIC 
+  ${CMAKE_CURRENT_LIST_DIR}/include
+  )
+
 #------------------------------------------------------------------------------------------------------
 # Tests
 #------------------------------------------------------------------------------------------------------
@@ -125,5 +137,6 @@ install(DIRECTORY include/sharedmemory DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/signal       DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/util         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/database     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY include/json     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(TARGETS  util ipc comm database collection LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS  util ipc comm database collection json LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
