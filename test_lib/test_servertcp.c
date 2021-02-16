@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 static int receive(char *buffer, int size);
+static int send(char *buffer, int *size);
 
 int main()
 {
@@ -11,7 +12,7 @@ int main()
     .socket = -1,
     .port = "3404",
     .cb.recv = receive,
-    .cb.send = NULL
+    .cb.send = send
   };
 
   Server_init(&s);
@@ -21,5 +22,13 @@ int main()
 static int receive(char *buffer, int size)
 {
   printf("%s\n", buffer);
+  return 0;
+}
+
+static int send(char *buffer, int *size)
+{
+  memset(buffer, 0, MAX_BUFFER_SEND_RECV);
+  snprintf(buffer, MAX_BUFFER_SEND_RECV, "Eita");
+  *size = strlen("Eita");
   return 0;
 }

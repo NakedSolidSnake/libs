@@ -8,9 +8,41 @@ typedef struct queue{
   char bData[BSIZE];
 }queue_st;
 
+/**
+ * @brief 
+ * 
+ * @param id 
+ * @return int 
+ */
 int queue_init(int id);
+
+/**
+ * @brief 
+ * 
+ * @param queue_id 
+ * @param data 
+ * @param bSize 
+ * @return int 
+ */
 int queue_send(int queue_id, const queue_st *data, const int bSize);
+
+/**
+ * @brief 
+ * 
+ * @param queue_id 
+ * @param data 
+ * @param bSize 
+ * @param timeout 
+ * @return int 
+ */
 int queue_recv(int queue_id, queue_st *data, const int bSize, int timeout);
+
+/**
+ * @brief 
+ * 
+ * @param queue_id 
+ * @return int 
+ */
 int queue_destroy(int queue_id);
 
 #endif

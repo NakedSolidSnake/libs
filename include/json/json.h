@@ -14,6 +14,10 @@ typedef enum
     eType_Object
 } eType;
 
+/**
+ * @brief 
+ * 
+ */
 typedef struct
 {
     const char *token;
@@ -23,7 +27,26 @@ typedef struct
     int size;
 } IHandler;
 
+/**
+ * @brief Get the Json From File object
+ * 
+ * @param filename 
+ * @param buffer 
+ * @param b_size 
+ * @return true 
+ * @return false 
+ */
 bool getJsonFromFile(const char *filename, void *buffer, size_t b_size);
+
+/**
+ * @brief 
+ * 
+ * @param buffer 
+ * @param ihandler_list 
+ * @param ihandler_size 
+ * @return true 
+ * @return false 
+ */
 bool processJson(void *buffer, const IHandler *ihandler_list, size_t ihandler_size);
 
 #endif /* JSON_H_ */
