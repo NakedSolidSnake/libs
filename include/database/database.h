@@ -1,6 +1,9 @@
 #ifndef DATABASE_H_
 #define DATABASE_H_
 
+
+#include <stdbool.h>
+
 /**
  * @brief 
  * 
@@ -10,7 +13,9 @@
  * @param database 
  * @return int 
  */
-int Database_init(const char *hostname, const char *username, const char *password, const char *database);
+int Database_initSync(const char *hostname, const char *username, const char *password, const char *database);
+
+bool Database_initAsync(const char *hostname, const char *username, const char *password, const char *database, int port, char *socket_name);
 
 /**
  * @brief 
@@ -20,6 +25,8 @@ int Database_init(const char *hostname, const char *username, const char *passwo
  * @return int 
  */
 int Database_queryExec(char *(*query)(void *data), void *data);
+
+bool Database_queryExecAsync(char *(*query_async)(void *data), void *data);
 
 /**
  * @brief 

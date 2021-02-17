@@ -1,6 +1,9 @@
 #include <stdlib.h>
+#include <string.h>
 #include <database/database.h>
 #include <mysql/mysql.h>
+#include <mysql/mysqld_error.h>
+#include <mysql/plugin_auth_common.h>
 
 static MYSQL connection;
 
@@ -11,6 +14,23 @@ int Database_init(const char *hostname, const char *username, const char *passwo
 
     ret = mysql_real_connect(&connection, hostname, username, password, database, 0, NULL, 0);
     return ret == NULL ? EXIT_FAILURE : EXIT_SUCCESS;
+}
+
+bool Database_initAsync(const char *hostname, const char *username, const char *password, const char *database, int port, char *socket_name)
+{
+    bool is_connect = true;
+    enum net_async_status status;
+    while ((status = mysql_real_connect_nonblocking(&connection, hostname, username,
+                                                    password, database, port,
+                                                    socket_name, 0)) == NET_ASYNC_NOT_READY)
+        ;
+
+    if (status == NET_ASYNC_ERROR)
+    { 
+        is_connect = false;
+    }
+
+    return is_connect;
 }
 
 int Database_queryExec(char *(*query)(void *data), void *data)
@@ -29,6 +49,31 @@ int Database_queryExec(char *(*query)(void *data), void *data)
     ret = mysql_query(&connection, query(data));
 
     return !ret ? EXIT_FAILURE : EXIT_SUCCESS;
+}
+
+bool Database_queryExecAsync(char *(*query_async)(void *data), void *data)
+{
+    enum net_async_status status;
+    if (!query_async)
+    {
+        false;
+    }
+
+    if (!data)
+    {
+        false;
+    }
+
+    char *stmt = query_async(data);
+
+    status = mysql_real_query_nonblocking(&connection, stmt, (unsigned long)strlen(stmt));
+
+    while (status == NET_ASYNC_NOT_READY)
+    {
+        status = mysql_real_query_nonblocking(&connection, stmt, (unsigned long)strlen(stmt));
+    }
+
+    return status == NET_ASYNC_ERROR ? false : true;
 }
 
 int Database_resultSet(void (*Database_get)(char **data, int columns, void *user_data), void *user_data)

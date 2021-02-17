@@ -92,7 +92,7 @@ target_sources(database
 target_include_directories(database 
   PUBLIC 
   ${CMAKE_CURRENT_LIST_DIR}/include
-  /usr/include
+  /usr/include/mysql
   )
 
 # json
