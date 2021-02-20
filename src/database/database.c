@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <database/database.h>
-#include <mysql/mysql.h>
+#include <mysql.h>
 
 static MYSQL connection;
 
@@ -49,6 +49,7 @@ int Database_resultSet(void (*Database_get)(char **data, int columns, void *user
     }
 
     mysql_free_result(result);
+    return 0;
 }
 
 int Database_close(void)

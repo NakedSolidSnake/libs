@@ -1,6 +1,7 @@
 #include <server/server_tcp.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static int receive(char *buffer, int size);
 static int send(char *buffer, int *size);
