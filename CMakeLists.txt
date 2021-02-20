@@ -126,7 +126,6 @@ target_link_libraries(test_static_list PUBLIC collection)
 #------------------------------------------------------------------------------------------------------
 # Install
 #------------------------------------------------------------------------------------------------------
-install(DIRECTORY include/client       DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/collection   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/file         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY include/log          DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
