@@ -36,7 +36,7 @@ typedef struct
  * @return true 
  * @return false 
  */
-bool getJsonFromFile(const char *filename, void *buffer, size_t b_size);
+bool JSON_GetFromFile(const char *filename, void *buffer, size_t b_size);
 
 /**
  * @brief 
@@ -47,6 +47,6 @@ bool getJsonFromFile(const char *filename, void *buffer, size_t b_size);
  * @return true 
  * @return false 
  */
-bool processJson(void *buffer, const IHandler *ihandler_list, size_t ihandler_size);
+bool JSON_Process(void *buffer, const IHandler *ihandler_list, size_t ihandler_size);
 
 #endif /* JSON_H_ */

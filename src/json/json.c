@@ -4,17 +4,17 @@
 #include <json-c/json.h>
 #include <json/json.h>
 
-static bool processJsonSubItem(struct json_object *object, const IHandler *ihandler_list, size_t ihandler_size);
-static void handlePrimitiveData(eType type, struct json_object *val, void **data);
+static bool JSON_ProcessSubItem(struct json_object *object, const IHandler *ihandler_list, size_t ihandler_size);
+static void JSON_HandlePrimitiveData(eType type, struct json_object *val, void **data);
 
-bool processJson(void *buffer, const IHandler *ihandler_list, size_t ihandler_size)
+bool JSON_Process(void *buffer, const IHandler *ihandler_list, size_t ihandler_size)
 {
     struct json_object *parsed_json;
     parsed_json = json_tokener_parse(buffer);
-    return processJsonSubItem(parsed_json, ihandler_list, ihandler_size);
+    return JSON_ProcessSubItem(parsed_json, ihandler_list, ihandler_size);
 }
 
-bool getJsonFromFile(const char *filename, void *buffer, size_t b_size)
+bool JSON_GetFromFile(const char *filename, void *buffer, size_t b_size)
 {
     FILE *fd;
     bool ret = false;
@@ -29,7 +29,7 @@ bool getJsonFromFile(const char *filename, void *buffer, size_t b_size)
     return ret;
 }
 
-static bool processJsonSubItem(struct json_object *object, const IHandler *ihandler_list, size_t ihandler_size)
+static bool JSON_ProcessSubItem(struct json_object *object, const IHandler *ihandler_list, size_t ihandler_size)
 {
     json_object_object_foreach(object, key, val)
     {
@@ -41,10 +41,10 @@ static bool processJsonSubItem(struct json_object *object, const IHandler *ihand
                 {
                     struct json_object *inner_json;
                     json_object_object_get_ex(object, key, &inner_json);
-                    processJsonSubItem(inner_json, ihandler_list[i].child, ihandler_list[i].size);
+                    JSON_ProcessSubItem(inner_json, ihandler_list[i].child, ihandler_list[i].size);
                 }
                 else
-                    handlePrimitiveData(ihandler_list[i].type, val, ihandler_list[i].data);
+                    JSON_HandlePrimitiveData(ihandler_list[i].type, val, ihandler_list[i].data);
                 break;
             }
         }
@@ -53,7 +53,7 @@ static bool processJsonSubItem(struct json_object *object, const IHandler *ihand
     return true;
 }
 
-static void handlePrimitiveData(eType type, struct json_object *val, void **data)
+static void JSON_HandlePrimitiveData(eType type, struct json_object *val, void **data)
 {
     switch (type)
     {
