@@ -1,8 +1,8 @@
 # middleware
 
 ## Dependencies
-* MySQL
-
+* default-libmysqlclient-dev
+* libjson-c-dev
 
 ## Collection
 ### list_static.h
