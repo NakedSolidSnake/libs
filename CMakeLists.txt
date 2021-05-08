@@ -53,7 +53,8 @@ add_library(comm SHARED "")
 
 target_sources(comm 
   PUBLIC 
-  ${CMAKE_CURRENT_LIST_DIR}/src/server/server_tcp.c
+  ${CMAKE_CURRENT_LIST_DIR}/src/server/tcp.c
+  ${CMAKE_CURRENT_LIST_DIR}/src/server/udp.c
   )
 target_include_directories(comm 
   PUBLIC 

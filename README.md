@@ -1,5 +1,9 @@
 # middleware
 
+## Dependencies
+* MySQL
+
+
 ## Collection
 ### list_static.h
 ## Database

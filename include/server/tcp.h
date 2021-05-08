@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-#ifndef __SERVER_TCP_H
-#define __SERVER_TCP_H
+#ifndef TCP_H
+#define TCP_H
 
 #include <time.h>
 #include <sys/types.h>
@@ -80,4 +80,4 @@ int Server_exec(Server_t *server);
 
 int Server_close(Server_t *server);
 
-#endif
+#endif /* TCP_H */
